@@ -1,13 +1,12 @@
 package com.lootoverflow.capability;
 
 import com.lootoverflow.LootOverflowMod;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 /**
  * Attaches the overflow-storage capability to vanilla chest and barrel block entities.
@@ -25,8 +24,7 @@ public final class OverflowAttachHandler {
     public static void onAttachCapabilities(AttachCapabilitiesEvent<BlockEntity> event) {
         BlockEntity blockEntity = event.getObject();
         if (blockEntity instanceof ChestBlockEntity || blockEntity instanceof BarrelBlockEntity) {
-            event.addCapability(new ResourceLocation(LootOverflowMod.MOD_ID, "overflow_inventory"),
-                    new OverflowProvider(blockEntity));
+            LootOverflowCapabilities.attach(event, blockEntity);
         }
     }
 }
