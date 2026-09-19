@@ -5,6 +5,7 @@ import com.lootoverflow.api.LootOverflowApi;
 import com.lootoverflow.capability.LootOverflowCapabilities;
 import com.lootoverflow.capability.OverflowInventory;
 import com.lootoverflow.compat.DoubleChestUtil;
+import com.lootoverflow.compat.RandomizableContainerCompat;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
-import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -93,15 +93,15 @@ public final class LootFillHandler {
     }
 
     private static void unpackIfNeeded(BlockEntity blockEntity, ServerLevel level, BlockPos pos, Player player) {
-        if (!(blockEntity instanceof RandomizableContainer container)) {
+        if (!RandomizableContainerCompat.isApplicable(blockEntity)) {
             return;
         }
-        ResourceLocation lootTableId = container.getLootTable();
+        ResourceLocation lootTableId = RandomizableContainerCompat.getLootTable(blockEntity);
         if (lootTableId == null) {
             return;
         }
-        long seed = container.getLootTableSeed();
-        container.setLootTable(null);
+        long seed = RandomizableContainerCompat.getLootTableSeed(blockEntity);
+        RandomizableContainerCompat.clearLootTable(blockEntity);
 
         if (player instanceof ServerPlayer serverPlayer) {
             CriteriaTriggers.GENERATE_LOOT.trigger(serverPlayer, lootTableId);

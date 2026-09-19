@@ -14,6 +14,7 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Public, reusable pieces of LootOverflow's core logic, meant for a separate addon/bridge mod
@@ -125,6 +126,9 @@ public final class LootOverflowApi {
     }
 
     private static boolean sameKind(ItemStack a, ItemStack b) {
-        return !a.isEmpty() && !b.isEmpty() && a.getItem() == b.getItem() && ItemStack.tagMatches(a, b);
+        if (a.isEmpty() || b.isEmpty() || a.getItem() != b.getItem()) {
+            return false;
+        }
+        return Objects.equals(a.getTag(), b.getTag());
     }
 }

@@ -5,10 +5,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 /**
  * LootOverflow deliberately never touches Lootr's own chests (see OverflowAttachHandler /
@@ -36,7 +36,7 @@ public final class LootrConflictWarning {
     }
 
     @SubscribeEvent
-    public static void onServerStarting(FMLServerStartingEvent event) {
+    public static void onServerStarting(ServerStartingEvent event) {
         if (lootrPresent()) {
             LootOverflowMod.LOGGER.warn("========================================================");
             LootOverflowMod.LOGGER.warn("LootOverflow: обнаружен установленный мод Lootr.");
